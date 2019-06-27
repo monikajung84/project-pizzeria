@@ -72,11 +72,34 @@
       /*create element using utils.createElementFromHTML*/
       thisProduct.element = utils.createDOMFromHTML(generatedHTML);
       /*find menu container*/
-      const mennuContainer = document.querySelector(select.containerOf.menu);
+      const menuContainer = document.querySelector(select.containerOf.menu);
       /*add element to menu*/
-      mennuContainer.appendChild(thisProduct.element);
+      menuContainer.appendChild(thisProduct.element);
     }
 
+    initAccordion(){
+      const thisProduct = this;
+      /* find the clickable trigger (the element that should react to clicking) */
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      console.log('accordionTrigger: ', thisProduct.accordionTrigger);
+      /* START: click event listener to trigger */
+      thisProduct.accordionTrigger.addEventListener('click', function(event){
+        /* prevent default action for event */
+        event.preventDefault();
+        /* toggle active class on element of thisProduct */
+        thisProduct.element.classList.add(classNames.menuProduct.wrapperActive);
+        /* find all active products */
+        const activeProducts = document.querySelectorAll('.product.active');
+        /* START LOOP: for each active product */
+        for(let activeProduct of activeProducts){
+          /* START: if the active product isn't the element of thisProduct */
+          if (activeProduct != thisProduct.element){
+            /* remove class active for the active product */
+            activeProduct.classList.remove('active');
+          } /* END: if the active product isn't the element of thisProduct */
+        } /* END LOOP: for each active product */
+      }); /* END: click event listener to trigger */
+    }
   }
   const app = {
     initMenu: function(){

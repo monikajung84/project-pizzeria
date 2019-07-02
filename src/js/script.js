@@ -92,8 +92,8 @@
       console.log('thisProduct.cartButton: ', thisProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       console.log('thisProduct.priceElem: ', thisProduct.priceElem);
-     
-    
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      console.log('thisProduct.imageWrapper: ', thisProduct.imageWrapper);
     }
 
     initAccordion(){
@@ -140,6 +140,7 @@
       /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */
       const formData = utils.serializeFormToObject(thisProduct.form);
       console.log('formData : ', formData);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
       thisProduct.params = {};
       /* set variable price to equal thisProduct.data.price */
       let price = thisProduct.data.price;
@@ -152,6 +153,8 @@
         for (let optionId in param.options){
           /* save the element in param.options with key optionId as const option */
           const option = param.options[optionId];
+          console.log('option: ', option);
+          const images = thisProduct.imageWrapper.querySelectorAll('.'+paramId+'-'+optionId);
           const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
           /* START IF: if option is selected and option is not default */
           if (optionSelected &&! option.default){
@@ -168,9 +171,21 @@
                 option: {},
               };
             }
+            thisProduct.priceElem = price;
+            for (let image of images ){
+              image.classList.add('active');
+  
+            }
+          }
+          else
+          {
+            for (let image of images){
+              image.classList.remove('active');
+            }
           }
         }
       }
+      thisProduct.element.querySelector(select.menuProduct.priceElem).innerHTML =thisProduct.priceElem; 
     }
   }
   const app = {

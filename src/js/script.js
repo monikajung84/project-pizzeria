@@ -143,49 +143,42 @@
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
       thisProduct.params = {};
       /* set variable price to equal thisProduct.data.price */
-      let price = thisProduct.data.price;
-      console.log('price:',price);
+      let basePrice = thisProduct.data.price;
+      console.log('price:',basePrice);
       /* START LOOP: for each paramId in thisProduct.data.params */
-      for (let paramId in thisProduct.data.params){
-        /* save the element in thisProduct.data.params with key paramId as const param */
-        const param = thisProduct.data.params[paramId];
-        /* START LOOP: for each optionId in param.options */
-        for (let optionId in param.options){
-          /* save the element in param.options with key optionId as const option */
-          const option = param.options[optionId];
-          console.log('option: ', option);
-          const images = thisProduct.imageWrapper.querySelectorAll('.'+paramId+'-'+optionId);
-          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
-          /* START IF: if option is selected and option is not default */
-          if (optionSelected &&! option.default){
-            /* add price of option to variable price */
-            price += param.options[optionId].price;
-          }else if(!optionSelected && option.default){ /* START ELSE IF: if option is not selected and option is default */
-            /* deduct price of option from price */
-            price -=param.options[optionId].price;
-          }
-          if((optionSelected && option.default)|| (optionSelected && !option.default)){
-            if (!thisProduct.params[paramId]){
-              thisProduct.params[paramId]={
-                label: param.label,
-                option: {},
-              };
-            }
-            thisProduct.priceElem = price;
-            for (let image of images ){
-              image.classList.add('active');
-  
-            }
-          }
-          else
-          {
-            for (let image of images){
-              image.classList.remove('active');
-            }
-          }
-        }
+      if (formData.ingredients){
+        formData.ingredients.forEach(function (ingredient) {
+          console.log('- ',ingredient );
+          basePrice += thisProduct.data.params.ingredients.options[ingredient].price;
+        });
       }
-      thisProduct.element.querySelector(select.menuProduct.priceElem).innerHTML =thisProduct.priceElem; 
+      if (formData.coffee){
+        formData.coffee.forEach(function (coffee) {
+          console.log('- ',coffee );
+          basePrice += thisProduct.data.params.coffee.options[coffee].price;
+        });
+      }
+      if (formData.sauce){
+        formData.sauce.forEach(function (sauce) {
+          console.log('- ',sauce );
+          basePrice += thisProduct.data.params.sauce.options[sauce].price;
+        });
+      }
+      if (formData.toppings){
+        formData.toppings.forEach(function (toppings) {
+          console.log('- ',toppings );
+          basePrice += thisProduct.data.params.toppings.options[toppings].price;
+        });
+      }
+      if (formData.crust){
+        formData.crust.forEach(function (crust) {
+          console.log('- ',crust );
+          basePrice += thisProduct.data.params.crust.options[crust].price;
+        });
+      }
+      thisProduct.priceElem = basePrice;
+      //
+    thisProduct.element.querySelector(select.menuProduct.priceElem).innerHTML =thisProduct.priceElem; ;
     }
   }
   const app = {

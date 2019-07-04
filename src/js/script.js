@@ -64,8 +64,6 @@
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
       thisProduct.processOrder();
-     
-
       console.log('new Product: ', thisProduct);
     }
     renderInMenu(){
@@ -146,10 +144,20 @@
       let basePrice = thisProduct.data.price;
       console.log('price:',basePrice);
       /* START LOOP: for each paramId in thisProduct.data.params */
+      const images = thisProduct.imageWrapper.querySelectorAll('.active');
+      console.log ('images: ', images);
+      for (let image of images){
+        image.classList.remove('active');
+      }
       if (formData.ingredients){
         formData.ingredients.forEach(function (ingredient) {
           console.log('- ',ingredient );
           basePrice += thisProduct.data.params.ingredients.options[ingredient].price;
+          const images = thisProduct.imageWrapper.querySelectorAll('.ingredients'+'-'+ingredient);
+          console.log ('images: ', images);
+          for (let image of images){
+            image.classList.add('active');
+          }
         });
       }
       if (formData.coffee){
@@ -162,23 +170,39 @@
         formData.sauce.forEach(function (sauce) {
           console.log('- ',sauce );
           basePrice += thisProduct.data.params.sauce.options[sauce].price;
+          const images = thisProduct.imageWrapper.querySelectorAll('.sauce'+'-'+sauce);
+          console.log ('images: ', images);
+          for (let image of images){
+            image.classList.add('active');
+          }
         });
       }
       if (formData.toppings){
         formData.toppings.forEach(function (toppings) {
           console.log('- ',toppings );
           basePrice += thisProduct.data.params.toppings.options[toppings].price;
+          const images = thisProduct.imageWrapper.querySelectorAll('.toppings'+'-'+toppings);
+          console.log ('images: ', images);
+          for (let image of images){
+            image.classList.add('active');
+          }
         });
       }
       if (formData.crust){
         formData.crust.forEach(function (crust) {
           console.log('- ',crust );
           basePrice += thisProduct.data.params.crust.options[crust].price;
+          const images = thisProduct.imageWrapper.querySelectorAll('.crust'+'-'+crust);
+          console.log ('images: ', images);
+          for (let image of images){
+            image.classList.add('active');
+          }
         });
       }
       thisProduct.priceElem = basePrice;
       //
-    thisProduct.element.querySelector(select.menuProduct.priceElem).innerHTML =thisProduct.priceElem; ;
+      thisProduct.element.querySelector(select.menuProduct.priceElem).innerHTML =thisProduct.priceElem; ;
+
     }
   }
   const app = {
@@ -192,7 +216,6 @@
 
     initData: function(){
       const thisApp = this;
-
       thisApp.data = dataSource;
     },
 

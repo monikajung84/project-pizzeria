@@ -63,6 +63,7 @@
       thisProduct.getElements();
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
+      thisProduct.initAmountWidget();
       thisProduct.processOrder();
       console.log('new Product: ', thisProduct);
     }
@@ -83,15 +84,17 @@
       const thisProduct = this;
       thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
-      console.log('thisProduct.form: ', thisProduct.form);
+      //console.log('thisProduct.form: ', thisProduct.form);
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
-      console.log('thisProduct.formInputs: ', thisProduct.formInputs);
+      //console.log('thisProduct.formInputs: ', thisProduct.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
-      console.log('thisProduct.cartButton: ', thisProduct.cartButton);
+      //console.log('thisProduct.cartButton: ', thisProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
-      console.log('thisProduct.priceElem: ', thisProduct.priceElem);
+      //console.log('thisProduct.priceElem: ', thisProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
-      console.log('thisProduct.imageWrapper: ', thisProduct.imageWrapper);
+      //console.log('thisProduct.imageWrapper: ', thisProduct.imageWrapper);
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
+      console.log('thisProduct.amountWidgetElem: ', thisProduct.amountWidgetElem);
     }
 
     initAccordion(){
@@ -150,59 +153,75 @@
         image.classList.remove('active');
       }
       if (formData.ingredients){
-        formData.ingredients.forEach(function (ingredient) {
-          console.log('- ',ingredient );
-          basePrice += thisProduct.data.params.ingredients.options[ingredient].price;
-          const images = thisProduct.imageWrapper.querySelectorAll('.ingredients'+'-'+ingredient);
-          console.log ('images: ', images);
-          for (let image of images){
-            image.classList.add('active');
-          }
-        });
+        basePrice = countThePrice(basePrice, 'ingredients');
+        setImages ('ingredients'); 
       }
       if (formData.coffee){
-        formData.coffee.forEach(function (coffee) {
-          console.log('- ',coffee );
-          basePrice += thisProduct.data.params.coffee.options[coffee].price;
-        });
+        basePrice = countThePrice(basePrice, 'coffee');
       }
       if (formData.sauce){
-        formData.sauce.forEach(function (sauce) {
-          console.log('- ',sauce );
-          basePrice += thisProduct.data.params.sauce.options[sauce].price;
-          const images = thisProduct.imageWrapper.querySelectorAll('.sauce'+'-'+sauce);
-          console.log ('images: ', images);
-          for (let image of images){
-            image.classList.add('active');
-          }
-        });
+        basePrice = countThePrice(basePrice, 'sauce');
+        setImages ('sauce');
       }
       if (formData.toppings){
-        formData.toppings.forEach(function (toppings) {
-          console.log('- ',toppings );
-          basePrice += thisProduct.data.params.toppings.options[toppings].price;
-          const images = thisProduct.imageWrapper.querySelectorAll('.toppings'+'-'+toppings);
-          console.log ('images: ', images);
-          for (let image of images){
-            image.classList.add('active');
-          }
-        });
+        basePrice = countThePrice(basePrice, 'toppings');
+        setImages ('toppings');
       }
       if (formData.crust){
-        formData.crust.forEach(function (crust) {
-          console.log('- ',crust );
-          basePrice += thisProduct.data.params.crust.options[crust].price;
-          const images = thisProduct.imageWrapper.querySelectorAll('.crust'+'-'+crust);
-          console.log ('images: ', images);
-          for (let image of images){
-            image.classList.add('active');
-          }
-        });
+        basePrice = countThePrice(basePrice, 'crust');
+        setImages ('crust');
       }
       thisProduct.priceElem = basePrice;
       //
-      thisProduct.element.querySelector(select.menuProduct.priceElem).innerHTML =thisProduct.priceElem; ;
+      thisProduct.element.querySelector(select.menuProduct.priceElem).innerHTML =thisProduct.priceElem;
+      function countThePrice (price, option){
+        formData[option].forEach(function(item){
+          price+=thisProduct.data.params[option].options[item].price;
+        });
+        return price;
+      }
+      function setImages (option){
+        formData[option].forEach(function(item){
+          const images = thisProduct.imageWrapper.querySelectorAll('.'+ option +'-'+ item);
+          console.log ('images: ', images);
+          for (let image of images){
+            image.classList.add('active');
+          }
+        });
+      }
+    }
 
+
+    initAmountWidget(){
+      const thisProduct = this;
+
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+    }
+  }
+
+  class AmountWidget{
+    constructor(element){
+      const thisWidget = this;
+      thisWidget.getElements(element);
+      thisWidget.setValue(thisWidget.input.value);
+      console.log('AmountWidget: ', thisWidget);
+      console.log('constructor arguments: ', element);
+    }
+    getElements(element){
+      const thisWidget = this;
+
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
+      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    }
+    setValue(value){
+      const thisWidget = this;
+
+      const newValue = parseInt(value);
+      /* TODO: Add validation*/
+      thisWidget.value = newValue;
+      thisWidget.input.value = thisWidget.value;
     }
   }
   const app = {
@@ -235,3 +254,5 @@
 
   app.init();
 }
+
+

@@ -223,9 +223,9 @@
     setValue(value){
       const thisWidget = this;
       const newValue = parseInt(value);
-      if((value >= settings.amountWidget.defaultMax) && (value <=settings.amountWidget.defaultMin) && (value != newValue)){
-      thisWidget.value = newValue;
-      thisWidget.announce();
+      if((value >= settings.amountWidget.defaultMin) && (value <=settings.amountWidget.defaultMax) && (thisWidget.value != value)){
+        thisWidget.value = newValue;
+        thisWidget.announce();
       }
       thisWidget.input.value = thisWidget.value;
     }

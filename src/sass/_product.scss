@@ -84,7 +84,7 @@
       height: 220px;
     }
 
-    > img:not(:first-child) {
+    > img {
       @include center();
       height: auto;
       opacity: 0;

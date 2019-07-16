@@ -152,11 +152,11 @@
         thisProduct.processOrder();
       });
       for (let input of thisProduct.formInputs) {
-        input.addEventListener("change", function() {
+        input.addEventListener('change', function() {
           thisProduct.processOrder();
         });
       }
-      thisProduct.cartButton.addEventListener("click", function(event) {
+      thisProduct.cartButton.addEventListener('click', function(event) {
         event.preventDefault();
         thisProduct.processOrder();
         thisProduct.addToCart();
@@ -323,6 +323,8 @@
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
       thisCart.dom.productList.append(generatedDOM);
       //console.log('adding product ', menuProduct);
+      thisCart.products.push(menuProduct);
+      console.log('thisCart.products',thisCart.products);
     }
   }
 

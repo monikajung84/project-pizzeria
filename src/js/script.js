@@ -320,8 +320,8 @@
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
       thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
       thisCart.dom.form = thisCart.dom.wrapper.querySelector(select.cart.form);
-      thisCart.address = document.querySelector('[name="address"]');
-      thisCart.phone = document.querySelector('[name="phone"]');
+      thisCart.address = document.querySelector(select.cart.address);
+      thisCart.phone = document.querySelector(select.cart.phone);
       thisCart.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
 
       for (let key of thisCart.renderTotalsKeys){
@@ -384,8 +384,8 @@
       const url = settings.db.url+'/'+settings.db.order;
 
       const payload = {
-        address: thisCart.address,
-        phone: thisCart.phone,
+        address: thisCart.address.value,
+        phone: thisCart.phone.value,
         totalPrice: thisCart.totalPrice,
         products: [],
       };

@@ -1,7 +1,8 @@
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
 import {Product} from './components/Product.js';
-import {select,settings} from './settings.js';
+import {select,settings, classNames} from './settings.js';
 import {Cart} from './components/Cart.js';
+import {Booking} from './components/Booking.js';
 
 const app = {
   initMenu: function(){
@@ -36,7 +37,44 @@ const app = {
       app.cart.add(event.detail.product);
     });
   },
-
+  initPages(){
+    const thisApp = this;
+    thisApp.pages = Array.from(document.querySelector(select.containerOf.pages).children);
+    thisApp.navLinks = Array.from(document.querySelectorAll(select.nav.links));
+    let pagesMatchingHash = [];
+    if(window.location.hash.length > 2){
+      const idFromHash = window.location.hash.replace('#/', '');
+      pagesMatchingHash = thisApp.pages.filter(function(page){
+        return page.id = idFromHash;
+      });
+    }
+    thisApp.activatePage(pagesMatchingHash.leght ? pagesMatchingHash[0].id : thisApp.pages[0].id);
+    for (let link of thisApp.navLinks){
+      link.addEventListener('click', function(event){
+        const clickedElement = this;
+        event.preventDefault();
+        const pageSelector = clickedElement.getAttribute('href');
+        const emptySelectorOfPage = pageSelector.replace('#','');
+        thisApp.activatePage(emptySelectorOfPage);
+      });
+    };
+  },
+  activatePage(pageId){
+    const thisApp = this;
+    window.location.hash = '#/' + pageId;
+    for(let link of thisApp.navLinks){
+      link.classList.toggle(classNames.nav.active, link.getAttribute('href') == '#' + pageId);
+    }
+    for (let page of thisApp.pages){
+      page.classList.toggle(classNames.nav.active, page.id == pageId);
+      console.log('activepages', thisApp.pages);
+    }
+  },
+  initBooking(){
+    const thisApp = this;
+    const bookingContainer = document.querySelector(select.containerOf.booking);
+    new Booking(bookingContainer);
+  },
   init: function(){
     const thisApp = this;
     //console.log('*** App starting ***');
@@ -44,8 +82,10 @@ const app = {
     //console.log('classNames:', classNames);
     //console.log('settings:', settings);
     //console.log('templates:', templates);
+    thisApp.initPages();
     thisApp.initData();
     thisApp.initCart();
+    thisApp.initBooking();
   },
 };
 app.init();

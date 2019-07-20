@@ -1,6 +1,7 @@
 import {CartProduct} from './CartProduct.js';
 import {select, settings, templates} from '../settings.js';
 import {utils} from '../utils.js';
+
 export class Cart{
   constructor(element){
     const thisCart = this;

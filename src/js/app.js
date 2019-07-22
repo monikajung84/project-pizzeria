@@ -1,4 +1,3 @@
-/* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
 import {Product} from './components/Product.js';
 import {select,settings, classNames} from './settings.js';
 import {Cart} from './components/Cart.js';
@@ -7,10 +6,11 @@ import {Booking} from './components/Booking.js';
 const app = {
   initMenu: function(){
     const thisApp = this;
-    //console.log('thisApp.data: ', thisApp.data);
-    for(let productData in thisApp.data.products){
+    for(let productData of thisApp.data.products){
       new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
+      console.log('productData', productData);
     }
+
   },
 
   initData: function(){
@@ -24,6 +24,7 @@ const app = {
       .then(function(parsedResponse){
         console.log('parsedResponse', parsedResponse);
         thisApp.data.products = parsedResponse;
+        console.log('thisApp.data.products', thisApp.data.products);
         thisApp.initMenu();
       });
     console.log('thisApp.data',JSON.stringify(thisApp.data));
@@ -89,7 +90,3 @@ const app = {
   },
 };
 app.init();
-
-
-
-

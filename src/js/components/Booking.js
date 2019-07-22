@@ -13,7 +13,7 @@ export class Booking {
     const generatedHTML = templates.bookingWidget();
     thisBooking.dom ={};
     thisBooking.dom.wrapper = thisBooking.bookingContainer;
-    thisBooking.dom.innerHTML = generatedHTML;
+    thisBooking.dom.wrapper.innerHTML = generatedHTML;
     thisBooking.dom.peopleAmount = thisBooking.dom.wrapper.querySelector(select.booking.peopleAmount);
     thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount);
 

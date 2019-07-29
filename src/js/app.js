@@ -6,7 +6,7 @@ import {Booking} from './components/Booking.js';
 const app = {
   initMenu: function(){
     const thisApp = this;
-    for(let productData of thisApp.data.products){
+    for(let productData in thisApp.data.products){
       new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
       console.log('productData', productData);
     }
@@ -46,10 +46,10 @@ const app = {
     if(window.location.hash.length > 2){
       const idFromHash = window.location.hash.replace('#/', '');
       pagesMatchingHash = thisApp.pages.filter(function(page){
-        return page.id = idFromHash;
+        return page.id == idFromHash;
       });
     }
-    thisApp.activatePage(pagesMatchingHash.leght ? pagesMatchingHash[0].id : thisApp.pages[0].id);
+    thisApp.activatePage(pagesMatchingHash.length ? pagesMatchingHash[0].id : thisApp.pages[0].id);
     for (let link of thisApp.navLinks){
       link.addEventListener('click', function(event){
         const clickedElement = this;
@@ -58,7 +58,7 @@ const app = {
         const emptySelectorOfPage = pageSelector.replace('#','');
         thisApp.activatePage(emptySelectorOfPage);
       });
-    };
+    }
   },
   activatePage(pageId){
     const thisApp = this;

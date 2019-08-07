@@ -206,7 +206,7 @@
   "event": [
     {
       "id": 1,
-      "date": "2019-07-30",
+      "date": "2019-08-02",
       "hour": "18:30",
       "table": 1,
       "repeat": false,
@@ -216,11 +216,11 @@
     },
     {
       "id": 2,
-      "date": "2019-07-31",
+      "date": "2019-08-02",
       "hour": "16:20",
       "table": 3,
       "repeat": "daily",
-      "duration": 2,
+      "duration": 3,
       "ppl": 3,
       "starters": ["bread", "lemonWater"]
     },

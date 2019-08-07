@@ -97,6 +97,12 @@ export class Booking {
     newObject[hour]= [table];
     hour = time[0] + (duration);
     newObject[hour] = [table];
+
+    for (let i = hour; i < hour + duration; i += 0.5) {
+      newObject[i] = [table];
+    }
+
+  
     console.log('time:', time);
     console.log('newObject:', newObject);
     thisBooking.booked[date]= newObject;
